@@ -1,38 +1,308 @@
-(function () {
-    var openComment, styles, time, writeStyleChar, writeStyles;
-    styles = '/* \n * "Myself" v1.0.4\n * Robot rights protected under BOT License\n * Authored by pen#PwLXXP\n */\n\nbody {\n  background-color: #1a1c24; color: #fff;\n  font-size: 13px; line-height: 1.4;\n  -webkit-font-smoothing: subpixel-antialiased;\n}\n\n/* ...                  \n *\n * ...hello?            \n *\n * Oh hai guys! It\'s me, pen#PwLXXP.         \n *\n * I\'m just sitting here coding away.            \n *\n * Sure, you can watch.                       \n *\n *\n * This CSS is being injected into a DOM <style> element \n * and written in this <pre> element simultaneously.        \n *\n * Confused? Watch!\n *\n */\n\npre { \n  position: fixed; width: 48%;\n  top: 30px; bottom: 30px; left: 26%;\n  transition: left 500ms;\n  background-color: #313744; color: #a6c3d4;\n  border: 1px solid rgba(0,0,0,0.2);\n  padding: 24px 12px;\n  box-sizing: border-box;\n  border-radius: 3px;\n  box-shadow: 0px 4px 0px 2px rgba(0,0,0,0.1);\n}\n\n\n/* \n * Syntax highlighting \n * Colors based on Base16 Ocean Dark\n */\n\npre em:not(.comment) { font-style: normal; }\n\n.comment       { color: #707e84; }\n.selector      { color: #c66c75; }\n.selector .key { color: #c66c75; }\n.key           { color: #c7ccd4; }\n.value         { color: #d5927b; }\n\n\n/* \n * Let\'s build my little pen heart.\n */ \n\n\n/* First, we\'ll move this s*** over */\n\npre { left: 50%; }\n\n\n/* Now we can build my heart */\n\n#heart, #echo { \n  position: fixed;\n  width: 300px; height: 300px;\n  top: calc(50% - 150px); left: calc(25% - 150px);\n  text-align: center;\n  -webkit-transform: scale(0.95);\n          transform: scale(0.95);\n}\n\n#heart { z-index: 8; }\n#echo  { z-index: 7; }\n\n#heart::before, #heart::after, #echo::before, #echo::after {\n    content: \'\';\n    position: absolute;\n    top: 40px;\n    width: 150px; height: 240px;\n    background: #c66c75;\n    border-radius: 150px 150px 0 0;\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg);\n    -webkit-transform-origin: 0 100%;\n            transform-origin: 0 100%;\n}\n\n#heart::before, #echo::before {\n  left: 150px;\n}\n\n#heart::after, #echo::after {\n  left: 0;\n  -webkit-transform: rotate(45deg);\n          transform: rotate(45deg);\n  -webkit-transform-origin: 100% 100%;\n          transform-origin: 100% 100%;\n}\n\n\n/* It needs some depth  */\n\n#heart::after { \n  box-shadow:\n    inset -6px -6px 0px 6px rgba(255,255,255,0.1);\n}\n\n#heart::before { \n  box-shadow:\n    inset 6px 6px 0px 6px rgba(255,255,255,0.1);\n}\n\n\n/* Makin it mine. */\n\n#heart i::before {\n  content: \'melon&luke\';\n  position: absolute;\n  z-index: 9;\n  width: 100%;\n  top: 35%; left: 0;\n  font-style: normal;\n  color: rgba(255,255,255,0.8);\n  font-weight: 100;\n  font-size: 30px;\n  text-shadow: -1px -1px 0px rgba(0,0,0,0.2);\n}\n\n\n/* \n * Hearts gotta beat. \n */\n\n@-webkit-keyframes heartbeat {\n  0%, 100% { \n    -webkit-transform: scale(0.95); \n            transform: scale(0.95); \n  }\n  50% { \n    -webkit-transform: scale(1.00); \n            transform: scale(1.00); \n  }\n}\n\n@keyframes heartbeat {\n  0%, 100% { transform: scale(0.95); }\n  50%      { transform: scale(1.00); }\n}\n\n@-webkit-keyframes echo {\n  0%   { \n    opacity: 0.1;\n    -webkit-transform: scale(1);\n            transform: scale(1);\n  }\n  100% { \n    opacity: 0;\n    -webkit-transform: scale(1.4);\n            transform: scale(1.4);\n  }\n}\n\n@keyframes echo {\n  0%   { \n    opacity: 0.1;\n    transform: scale(1);\n  }\n  100% { \n    opacity: 0;\n    transform: scale(1.4);\n  }\n}\n\n\n/* \n * Beautiful! Now for the beating...\n */\n\n#heart, #echo {\n  -webkit-animation-duration: 2000ms;\n          animation-duration: 2000ms;\n  -webkit-animation-timing-function: \n    cubic-bezier(0, 0, 0, 1.74);\n          animation-timing-function: \n            cubic-bezier(0, 0, 0, 1.74);\n  -webkit-animation-delay: 500ms;\n          animation-delay: 500ms;\n  -webkit-animation-iteration-count: infinite;\n          animation-iteration-count: infinite;\n  -webkit-animation-play-state: paused;\n          animation-play-state: paused;\n}\n\n#heart { \n  -webkit-animation-name: heartbeat; \n          animation-name: heartbeat; \n}\n#echo { \n  -webkit-animation-name: echo; \n          animation-name: echo; \n}\n\n\n/* \n * Ready...           \n */\n\n#heart, #echo {\n\n/* \n * ...set...          \n */\n  \n  -webkit-animation-play-state: running;\n          animation-play-state: running;\n  \n/* \n * ...beat!        \n */\n  \n}\n\n/* \n *\n * Wahoo!         \n *\n * We did it!       \n *\n * I mean *I* did it, but you know, whatever...\n * jake albaugh definitely did not have anything \n * to do with this.\n *\n * This pen loves !       \n * \n * See you later!\n *  \n */';
-    openComment = false;
-    writeStyleChar = function (which) {
-        if (which === '/' && openComment === false) {
-            openComment = true;
-            styles = $('#style-text').html() + which;
-        } else if (which === '/' && openComment === true) {
-            openComment = false;
-            styles = $('#style-text').html().replace(/(\/[^\/]*\*)$/, '<em class="comment">$1/</em>');
-        } else if (which === ':') {
-            styles = $('#style-text').html().replace(/([a-zA-Z- ^\n]*)$/, '<em class="key">$1</em>:');
-        } else if (which === ';') {
-            styles = $('#style-text').html().replace(/([^:]*)$/, '<em class="value">$1</em>;');
-        } else if (which === '{') {
-            styles = $('#style-text').html().replace(/(.*)$/, '<em class="selector">$1</em>{');
-        } else {
-            styles = $('#style-text').html() + which;
-        }
-        $('#style-text').html(styles);
-        return $('#style-tag').append(which);
-    };
-    writeStyles = function (message, index, interval) {
-        var pre;
-        if (index < message.length) {
-            pre = document.getElementById('style-text');
-            pre.scrollTop = pre.scrollHeight;
-            writeStyleChar(message[index++]);
-            return setTimeout(function () {
-                return writeStyles(message, index, interval);
-            }, interval);
-        }
-    };
-    $('body').append('  <style id="style-tag"></style>\n<span id="echo"></span>\n<span id="heart"><i></i></span>\n<pre id="style-text"></pre>');
-    time = window.innerWidth <= 578 ? 4 : 16;
-    writeStyles(styles, 0, time);
-}.call(this));
+styles = """
+/* 
+ * "Myself" v1.0.4
+ * Robot rights protected under BOT License
+ * Authored by pen#PwLXXP
+ */
+
+body {
+  background-color: #1a1c24; color: #fff;
+  font-size: 13px; line-height: 1.4;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+/* ...                  
+ *
+ * ...hello?            
+ *
+ * Oh hai guys! It's me, pen#PwLXXP.         
+ *
+ * I'm just sitting here coding away.            
+ *
+ * Sure, you can watch.                       
+ *
+ *
+ * This CSS is being injected into a DOM <style> element 
+ * and written in this <pre> element simultaneously.        
+ *
+ * Confused? Watch!
+ *
+ */
+
+pre { 
+  position: fixed; width: 48%;
+  top: 30px; bottom: 30px; left: 26%;
+  transition: left 500ms;
+  background-color: #313744; color: #a6c3d4;
+  border: 1px solid rgba(0,0,0,0.2);
+  padding: 24px 12px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  box-shadow: 0px 4px 0px 2px rgba(0,0,0,0.1);
+}
+
+
+/* 
+ * Syntax highlighting 
+ * Colors based on Base16 Ocean Dark
+ */
+
+pre em:not(.comment) { font-style: normal; }
+
+.comment       { color: #707e84; }
+.selector      { color: #c66c75; }
+.selector .key { color: #c66c75; }
+.key           { color: #c7ccd4; }
+.value         { color: #d5927b; }
+
+
+/* 
+ * Let's build my little pen heart.
+ */ 
+
+
+/* First, we'll move this s*** over */
+
+pre { left: 50%; }
+
+
+/* Now we can build my heart */
+
+#heart, #echo { 
+  position: fixed;
+  width: 300px; height: 300px;
+  top: calc(50% - 150px); left: calc(25% - 150px);
+  text-align: center;
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+}
+
+#heart { z-index: 8; }
+#echo  { z-index: 7; }
+
+#heart::before, #heart::after, #echo::before, #echo::after {
+    content: '';
+    position: absolute;
+    top: 40px;
+    width: 150px; height: 240px;
+    background: #c66c75;
+    border-radius: 150px 150px 0 0;
+    -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+    -webkit-transform-origin: 0 100%;
+            transform-origin: 0 100%;
+}
+
+#heart::before, #echo::before {
+  left: 150px;
+}
+
+#heart::after, #echo::after {
+  left: 0;
+  -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+  -webkit-transform-origin: 100% 100%;
+          transform-origin: 100% 100%;
+}
+
+
+/* It needs some depth  */
+
+#heart::after { 
+  box-shadow:
+    inset -6px -6px 0px 6px rgba(255,255,255,0.1);
+}
+
+#heart::before { 
+  box-shadow:
+    inset 6px 6px 0px 6px rgba(255,255,255,0.1);
+}
+
+
+/* Makin it mine. */
+
+#heart i::before {
+  content: 'melon&luke';
+  position: absolute;
+  z-index: 9;
+  width: 100%;
+  top: 35%; left: 0;
+  font-style: normal;
+  color: rgba(255,255,255,0.8);
+  font-weight: 100;
+  font-size: 30px;
+  text-shadow: -1px -1px 0px rgba(0,0,0,0.2);
+}
+
+
+/* 
+ * Hearts gotta beat. 
+ */
+
+@-webkit-keyframes heartbeat {
+  0%, 100% { 
+    -webkit-transform: scale(0.95); 
+            transform: scale(0.95); 
+  }
+  50% { 
+    -webkit-transform: scale(1.00); 
+            transform: scale(1.00); 
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(0.95); }
+  50%      { transform: scale(1.00); }
+}
+
+@-webkit-keyframes echo {
+  0%   { 
+    opacity: 0.1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+  100% { 
+    opacity: 0;
+    -webkit-transform: scale(1.4);
+            transform: scale(1.4);
+  }
+}
+
+@keyframes echo {
+  0%   { 
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  100% { 
+    opacity: 0;
+    transform: scale(1.4);
+  }
+}
+
+
+/* 
+ * Beautiful! Now for the beating...
+ */
+
+#heart, #echo {
+  -webkit-animation-duration: 2000ms;
+          animation-duration: 2000ms;
+  -webkit-animation-timing-function: 
+    cubic-bezier(0, 0, 0, 1.74);
+          animation-timing-function: 
+            cubic-bezier(0, 0, 0, 1.74);
+  -webkit-animation-delay: 500ms;
+          animation-delay: 500ms;
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+
+#heart { 
+  -webkit-animation-name: heartbeat; 
+          animation-name: heartbeat; 
+}
+#echo { 
+  -webkit-animation-name: echo; 
+          animation-name: echo; 
+}
+
+
+/* 
+ * Ready...           
+ */
+
+#heart, #echo {
+
+/* 
+ * ...set...          
+ */
+  
+  -webkit-animation-play-state: running;
+          animation-play-state: running;
+  
+/* 
+ * ...beat!        
+ */
+  
+}
+
+/* 
+ *
+ * Wahoo!         
+ *
+ * We did it!       
+ *
+ * I mean *I* did it, but you know, whatever...
+ * jake albaugh definitely did not have anything 
+ * to do with this.
+ *
+ * This pen loves CodePen!       
+ * 
+ * See you later!
+ *  
+ */
+"""
+
+openComment = false
+
+writeStyleChar = (which) ->
+	# begin wrapping open comments
+  if which == '/' && openComment == false
+    openComment = true
+    styles = $('#style-text').html() + which
+  else if which == '/' && openComment == true
+    openComment = false
+    styles = $('#style-text').html().replace(/(\/[^\/]*\*)$/, '<em class="comment">$1/</em>')
+  # wrap style declaration
+  else if which == ':'
+    styles = $('#style-text').html().replace(/([a-zA-Z- ^\n]*)$/, '<em class="key">$1</em>:')
+  # wrap style value 
+  else if which == ';'
+    styles = $('#style-text').html().replace(/([^:]*)$/, '<em class="value">$1</em>;')
+  # wrap selector
+  else if which == '{'
+    styles = $('#style-text').html().replace(/(.*)$/, '<em class="selector">$1</em>{')
+  else
+    styles = $('#style-text').html() + which
+  $('#style-text').html styles
+  $('#style-tag').append which
+
+writeStyles = (message, index, interval) ->
+  if index < message.length
+    pre = document.getElementById 'style-text'
+    pre.scrollTop = pre.scrollHeight
+    writeStyleChar message[index++]
+    setTimeout (->
+      writeStyles message, index, interval
+    ), interval
+    
+
+# appending the tags I'll need.
+$('body').append """
+  <style id="style-tag"></style>
+	<span id="echo"></span>
+	<span id="heart"><i></i></span>
+	<pre id="style-text"></pre>
+"""
+
+# faster typing in small iframe on codepen homepage
+time = if window.innerWidth <= 578 then 4 else 16
+  
+# starting it off
+writeStyles(styles, 0, time)
+
+###
+Changelog:
+1.0.0: i exist!
+1.0.1: heart instead of circle
+1.0.2: including standard CSS3 transforms and animations
+	was only using `-webkit` to be less verbose (standard transforms dont work in safari)
+	now works in FF
+1.0.3: crossbrowser echo 
+	nested `scale()` styles (scaled in scaled) only worked in chrome
+	moved echo out of heart to fix
+1.0.4: more efficient animations
+	`0%, 100% {}` instead of duplicated keyframes
+###
